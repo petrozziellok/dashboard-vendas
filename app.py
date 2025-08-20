@@ -4,14 +4,15 @@ import plotly.express as px
 from datetime import datetime
 import numpy as np
 
+# Configuração da página
 st.set_page_config(
-    page_title="Dashboard de Vendas ",
+    page_title="Dashboard de Vendas Premium",
     page_icon="🚀",
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
-# --- CSS ---
+# --- CSS Personalizado ---
 st.markdown("""
 <style>
     .main {
@@ -221,7 +222,7 @@ col_logo, col_title, _ = st.columns([1, 3, 1])
 with col_logo:
     st.markdown("<div style='text-align: center; font-size: 3rem; margin-top: 10px;'>🚀</div>", unsafe_allow_html=True)
 with col_title:
-    st.markdown('<h1 class="main-header">Dashboard de Vendas </h1>', unsafe_allow_html=True)
+    st.markdown('<h1 class="main-header">Dashboard de Vendas Premium</h1>', unsafe_allow_html=True)
 
 # --- Indicadores Principais (KPIs) ---
 st.markdown("### 📊 Indicadores Principais")
@@ -277,19 +278,16 @@ with tab2:
 
 with tab3:
     st.subheader("🌎 Análise Geográfica")
-col1, col2 = st.columns(2)
-
-with col1:
-    regioes_df = df_filtrado.groupby('Region')['Sales'].sum().reset_index()
-    fig = px.pie(regioes_df, values='Sales', names='Region', title="Distribuição por Região")
-    fig.update_traces(marker=dict(colors=['#00c6ff', '#0072ff', '#33aaff', '#66ccff']))
-    fig.update_layout(**plotly_template['layout'])
-    st.plotly_chart(fig, use_container_width=True)    
-
-with col2:
-    fig = px.treemap(regioes_df, path=['Region'], values='Sales', title="Mapa de Árvore por Região", color='Sales', color_continuous_scale='Blues')
-    fig.update_layout(**plotly_template['layout'])
-    st.plotly_chart(fig, use_container_width=True)
+    col1, col2 = st.columns(2)
+    with col1:
+        regioes_df = df_filtrado.groupby('Region')['Sales'].sum().reset_index()
+        fig = px.pie(regioes_df, values='Sales', names='Region', title="Distribuição por Região")
+        fig.update_layout(**plotly_template['layout'])
+        st.plotly_chart(fig, use_container_width=True)
+    with col2:
+        fig = px.treemap(regioes_df, path=['Region'], values='Sales', title="Mapa de Árvore por Região", color='Sales', color_continuous_scale='Blues')
+        fig.update_layout(**plotly_template['layout'])
+        st.plotly_chart(fig, use_container_width=True)
 
 with tab4:
     st.subheader("👥 Análise de Clientes")
